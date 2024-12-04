@@ -5,12 +5,12 @@
 #include <unordered_map>
 using namespace std;
 
-// converts string to two arrays
+// Converts string to two arrays
 void parse(const string& n, vector<int>& list1, vector<int>& list2)
 {
-    istringstream ss(n);
+    istringstream iss(n);
     int num1, num2;
-    while (ss >> num1 >> num2) 
+    while (iss >> num1 >> num2) 
     {
         list1.push_back(num1);
         list2.push_back(num2);
@@ -19,9 +19,11 @@ void parse(const string& n, vector<int>& list1, vector<int>& list2)
 
 int distance(vector<int>& list1, vector<int>& list2) 
 {
+    // Sort both arrays
     sort(list1.begin(), list1.end());
     sort(list2.begin(), list2.end());
 
+    // Iterate through array to add up distance
     int result = 0;
     for (int i = 0; i < list1.size(); i++) 
     {
@@ -33,22 +35,20 @@ int distance(vector<int>& list1, vector<int>& list2)
 
 int similarity(vector<int>& list1, vector<int>& list2) 
 {
-
+    // Hashmap approach, convert list2 first
     unordered_map<int, int> hashmap;
-    int result = 0;
-    for (int i = 0; i < list1.size(); i++)
+    for (int& i : list2)
     {
-        // if num doesn't exists in hashmap
-        if (hashmap.find(list1[i]) == hashmap.end())
+        hashmap[i]++;
+    }
+    // Then, iterate through list1, calculating result if int i exists in hashmap
+    int result = 0;
+    for (int i : list1)
+    {
+        if (hashmap.find(i) != hashmap.end())
         {
-            int temp = 0;
-            for (int j : list2)
-            {
-                temp += (j == list1[i]);
-            }
-            hashmap[list1[i]] = temp * list1[i];
+            result += i * hashmap[i];
         }
-        result += hashmap[list1[i]];
     }
     return result;
 }
