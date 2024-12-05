@@ -1,3 +1,5 @@
+// 2 stars
+
 #include <iostream>
 #include <string>
 using namespace std;
