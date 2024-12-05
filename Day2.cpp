@@ -1,4 +1,5 @@
 // 1 star
+// 2nd version is wrong
 
 #include <iostream>
 #include <sstream>
@@ -25,6 +26,38 @@ void parse(const string& input, vector<vector<int>>& list)
     }
 }
 
+int safe(vector<vector<int>>& list)
+{
+    int result = 0;
+    for (vector<int> arr : list)
+    {
+        bool ascending = arr[0] < arr[arr.size() - 1];
+        bool safe = true;
+
+        // Two pointers
+        int l = 0;
+        for (int r = 1; r < arr.size(); r++)
+        {
+            int diff = arr[r] - arr[l];
+
+            if ((ascending && (diff < 1 || diff > 3)) || (!ascending && (diff < -3 || diff > -1)))
+            {
+                safe = false;
+                break;
+            }
+            else
+            {
+                l = r;
+            }
+        }
+        if (safe)
+        {
+            result++;
+        }
+    }
+    return result;
+}
+
 // 0 = ascending, 1 = decreasing, 2 = invalid
 int check(int diff)
 {
@@ -42,7 +75,7 @@ int check(int diff)
     }
 }
 
-int safe(vector<vector<int>>& list)
+int safeV2(vector<vector<int>>& list)
 {
     int result = 0;
     for (vector<int> arr : list)
@@ -91,6 +124,7 @@ int safe(vector<vector<int>>& list)
             ascending = arr[0] < arr[2];
         }
 
+        // Two pointers
         int l = 3;
         for (int r = 4; r < arr.size(); r++)
         {
@@ -1127,7 +1161,7 @@ int main()
 
     parse(input, list);
     cout << "Safe reports: " << safe(list) << endl;
-    cout << "Tests: " << list.size() << endl;
+    cout << "Safe reports version 2: " << safeV2(list) << endl;
 
     return 0;
 }
