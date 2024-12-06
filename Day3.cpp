@@ -5,7 +5,7 @@
 using namespace std;
 
 
-int multiplications(string input)
+int multiplications(const string& input)
 {
     // Iterating through string looking for string match
     int result = 0;
@@ -43,7 +43,7 @@ int multiplications(string input)
 }
 
 
-int multiplicationsV2(string input)
+int multiplicationsV2(const string& input)
 {
     // Iterating through string looking for string match
     int result = 0;

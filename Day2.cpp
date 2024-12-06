@@ -26,7 +26,7 @@ void parse(const string& input, vector<vector<int>>& list)
     }
 }
 
-int safe(vector<vector<int>>& list)
+int safe(const vector<vector<int>>& list)
 {
     int result = 0;
     for (vector<int> arr : list)
@@ -59,7 +59,7 @@ int safe(vector<vector<int>>& list)
 }
 
 // 0 = ascending, 1 = decreasing, 2 = invalid
-int check(int diff)
+int check(int& diff)
 {
     if (diff >= 1 && diff <= 3)
     {
@@ -75,7 +75,7 @@ int check(int diff)
     }
 }
 
-int safeV2(vector<vector<int>>& list)
+int safeV2(const vector<vector<int>>& list)
 {
     int result = 0;
     for (vector<int> arr : list)
