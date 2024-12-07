@@ -2,7 +2,13 @@
 
 // For the rules, I nested a set with a hashmap, setting the key with the before value and set
 // with after values. Set is used over vector for the .find() function in the parsing function.
+// For parsing the print sequence input I use a simple 2D vector.
 
+// For correctUpdates() function (star 1), I iterate through the print sequence adding numbers to my vector
+// array. Each time I iterate, I check if the number exists in the unordered_set. If it does,
+// then the sequence is wrong. Time complexity is O(n^2) in the worst case.
+
+// For wrongUpdates() function (star 2), similar method to first one just with an insertion sort.
 
 
 #include <iostream>
@@ -46,34 +52,68 @@ void parsePages(const string& input, vector<vector<int>>& arr)
     }
 }
 
-int correctUpdates(unordered_map<int, unordered_set<int>>& hashmap, const vector<vector<int>>& arr)
+// Added arrWrong in parameter for 2 star
+int correctUpdates(unordered_map<int, unordered_set<int>>& hashmap, const vector<vector<int>>& arr, vector<vector<int>>& arrWrong)
 {
     int result = 0;
     for (int i = 0; i < arr.size(); i++)
     {
         bool wrong = false;
-        unordered_set<int> currentSet;
         for (int j = 0; j < arr[i].size(); j++)
         {
-            for (int setNum : currentSet)
+            for (int k = 0; k < j; k++)
             {
-                if (hashmap[arr[i][j]].find(setNum) != hashmap[arr[i][j]].end())
+                if (hashmap[arr[i][j]].find(arr[i][k]) != hashmap[arr[i][j]].end())
                 {
                     wrong = true;
                     break;
                 }
             }
-            currentSet.insert(arr[i][j]);
             if (wrong)
             {
                 break;
             }
         }
-        if (!wrong)
+        // Pushes wrong print sequence to arrWrong
+        if (wrong)
+        {
+            arrWrong.push_back(arr[i]);
+        }
+        else
         {
             result += arr[i][arr[i].size() / 2];
         }
     }
+    return result;
+}
+
+int wrongUpdates(unordered_map<int, unordered_set<int>>& hashmap, vector<vector<int>> arr)
+{
+    
+    int result = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        for (int j = 0; j < arr[i].size(); j++)
+        {
+            for (int k = 0; k < j; k++)
+            {
+                if (hashmap[arr[i][j]].find(arr[i][k]) != hashmap[arr[i][j]].end())
+                {
+                    // Insertion sort
+                    int temp = arr[i][j];
+                    for (int l = j; l > k; l--)
+                    {
+                        arr[i][l] = arr[i][l - 1];
+                    }
+                    arr[i][k] = temp;
+                    break;
+                }
+            }
+        }
+        result += arr[i][arr[i].size() / 2];
+    }
+    
+
     return result;
 }
 
@@ -1453,10 +1493,11 @@ int main()
 73,65,19,62,34,26,56,66,35,59,95,69,21,78,51,84,67)";
     unordered_map<int, unordered_set<int>> hashmap;
     vector<vector<int>> arr;
+    vector<vector<int>> arrWrong;
     parseRules(rulesInput, hashmap);
     parsePages(pagesInput, arr);
-    cout << "Sum of correct update middle page numbers : " << correctUpdates(hashmap, arr) << endl;
-
+    cout << "Sum of correct update middle page numbers: " << correctUpdates(hashmap, arr, arrWrong) << endl;
+    cout << "Sum of wrong update middle page numbers: " << wrongUpdates(hashmap, arrWrong) << endl;
 
     return 0;
 }
