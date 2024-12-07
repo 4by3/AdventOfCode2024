@@ -1,4 +1,4 @@
-// 1 star
+// 2 stars
 
 // For the rules, I nested a set with a hashmap, setting the key with the before value and set
 // with after values. Set is used over vector for the .find() function in the parsing function.
