@@ -1,4 +1,7 @@
-//
+// 1 star
+
+// Iterate 2D vector until out of bounds. If hits '#' then go back one and change direction.
+// 0 = up, 1 = right, 2 = down, 3 = left
 
 #include <iostream>
 #include <vector>
