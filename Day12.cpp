@@ -6,6 +6,9 @@
 // 1 to area and then checks up, down, left, right. If boundary detected, add 1 to perimeter, if finds its value, 
 // call recursive function, if finds lower case value, do nothing since it means it is already checked.
 
+// Part 2 uses 2 pointer. Begins with 4 sides and increases by 2 if either left or right pointer deviates from starting
+// position from the recursive call.
+
 #include <iostream>
 #include <vector>
 #include <sstream>
